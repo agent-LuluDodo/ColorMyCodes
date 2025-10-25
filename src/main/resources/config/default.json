@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "content": {
+    "black": {
+      "code": "0",
+      "color": "#000000"
+    },
+    "darK_blue": {
+      "code": "1",
+      "color": "#0000AA"
+    },
+    "dark_green": {
+      "code": "2",
+      "color": "#00AA00"
+    },
+    "dark_aqua": {
+      "code": "3",
+      "color": "#00AAAA"
+    },
+    "dark_red": {
+      "code": "4",
+      "color": "#AA0000"
+    },
+    "dark_purple": {
+      "code": "5",
+      "color": "#AA00AA"
+    },
+    "gold": {
+      "code": "6",
+      "color": "#FFAA00"
+    },
+    "gray": {
+      "code": "7",
+      "color": "#C6C6C6"
+    },
+    "dark_gray": {
+      "code": "8",
+      "color": "#555555"
+    },
+    "blue": {
+      "code": "9",
+      "color": "#5555FF"
+    },
+    "green": {
+      "code": "a",
+      "color": "#55FF55"
+    },
+    "aqua": {
+      "code": "b",
+      "color": "#55FFFF"
+    },
+    "red": {
+      "code": "c",
+      "color": "#FF5555"
+    },
+    "light_purple": {
+      "code": "d",
+      "color": "#FF55FF"
+    },
+    "yellow": {
+      "code": "e",
+      "color": "#FFFF55"
+    },
+    "white": {
+      "code": "f",
+      "color": "#FFFFFF"
+    },
+    "obfuscated": {
+      "code": "k",
+      "modifier": true
+    },
+    "bold": {
+      "code": "l",
+      "modifier": true
+    },
+    "strikethrough": {},
+    "underline": {},
+    "italic": {
+      "code": "o",
+      "modifier": true
+    },
+    "reset": {
+      "code": "r",
+      "modifier": false
+    },
+    "minecoin_gold": {
+      "code": "g",
+      "color": "#DDD605"
+    },
+    "material_quartz": {
+      "code": "h",
+      "color": "#E3D4D1"
+    },
+    "material_iron": {
+      "code": "i",
+      "color": "#CECACA"
+    },
+    "material_netherite": {
+      "code": "j",
+      "color": "#443A3B"
+    },
+    "material_redstone": {
+      "code": "m",
+      "color": "#971607"
+    },
+    "material_copper": {
+      "code": "n",
+      "color": "#B4684D"
+    },
+    "material_gold": {
+      "code": "p",
+      "color": "#DEB12D"
+    },
+    "material_emerald": {
+      "code": "q",
+      "color": "#119F36"
+    },
+    "material_diamond": {
+      "code": "q",
+      "color": "#2CBAA8"
+    },
+    "material_lapis": {
+      "code": "t",
+      "color": "#21497B"
+    },
+    "material_amethyst": {
+      "code": "u",
+      "color": "#9A5CC6"
+    },
+    "material_resin": {
+      "code": "v",
+      "color": "#EB7114"
+    }
+  }
+}

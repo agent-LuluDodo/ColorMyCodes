@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @param <V> The value class
  */
 @SuppressWarnings("unused")
-public abstract class MapSerializer<K, V> implements JsonSerializer<HashMap<K, V>>, JsonDeserializer<HashMap<K, V>> {
+public abstract class MapSerializer<K, V> implements JsonDeserializer<HashMap<K, V>> {
     private int version;
 
     /**
@@ -55,25 +55,6 @@ public abstract class MapSerializer<K, V> implements JsonSerializer<HashMap<K, V
     }
 
     /**
-     * Serializes a {@link HashMap} to a {@link JsonObject}.
-     * <p>
-     * Wraps around {@link #deserializeContent(JsonElement, int, Type, JsonDeserializationContext)} to add versioning.
-     *
-     * @param config The element to serialize
-     * @param type The type of the element
-     * @param jsonSerializationContext The current context
-     *
-     * @return The serialized {@link HashMap} as a {@link JsonElement}
-     */
-    @Override
-    public final JsonElement serialize(HashMap<K, V> config, Type type, JsonSerializationContext jsonSerializationContext) {
-        JsonObject json = new JsonObject();
-        json.add("version", new JsonPrimitive(getVersion()));
-        json.add("content", serializeContent(config, type, jsonSerializationContext));
-        return json;
-    }
-
-    /**
      * @param jsonElement The element to deserialize
      * @param fromVersion The version the element was serialized with
      * @param type The type to deserialize to
@@ -84,13 +65,4 @@ public abstract class MapSerializer<K, V> implements JsonSerializer<HashMap<K, V
      * @throws JsonParseException If something went wrong while parsing the json.
      */
     public abstract HashMap<K, V> deserializeContent(JsonElement jsonElement, int fromVersion, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException;
-
-    /**
-     * @param config The element to serialize
-     * @param type THe type of the element
-     * @param jsonSerializationContext The current context
-     *
-     * @return The serialized {@link HashMap} as a {@link JsonElement}.
-     */
-    public abstract JsonElement serializeContent(HashMap<K, V> config, Type type, JsonSerializationContext jsonSerializationContext);
 }

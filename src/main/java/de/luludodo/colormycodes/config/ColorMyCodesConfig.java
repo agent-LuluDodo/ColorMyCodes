@@ -18,6 +18,6 @@ public class ColorMyCodesConfig extends JsonMapConfig<String, ConfigFormatting> 
 
     @Override
     protected String getDefaultResource() {
-        return "config/default.json";
+        return "/config/default.json";
     }
 }

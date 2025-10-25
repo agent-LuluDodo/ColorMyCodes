@@ -1,15 +1,21 @@
 package de.luludodo.colormycodes.formatting;
 
-import de.luludodo.colormycodes.colorIndex.ColorIndexHelper;
+import de.luludodo.colormycodes.helper.ColorIndexHelper;
+import de.luludodo.colormycodes.helper.CursedReflectionHelper;
+import net.minecraft.util.Formatting;
+
+import java.util.Locale;
 
 public class ConfigFormatting implements MixinFormatting {
     private final String name;
+    private String fullName = null;
     private final char code;
     private final boolean isColor;
     private final boolean isModifier;
     private final int colorIndex;
     private final Integer colorValue;
     private final String stringValue;
+    private Formatting formatting;
     public ConfigFormatting(String name, char code, int colorValue) {
         this.name = name;
         this.code = code;
@@ -38,6 +44,15 @@ public class ConfigFormatting implements MixinFormatting {
         this.colorIndex = -1;
         this.colorValue = null;
         this.stringValue = "";
+    }
+
+    public Formatting createFormatting() {
+        this.formatting = CursedReflectionHelper.newFormatting(this.name, this.code, this.colorIndex);
+        return this.formatting;
+    }
+
+    public void setFormatting(Formatting formatting) {
+        this.formatting = formatting;
     }
 
     @Override
@@ -73,5 +88,10 @@ public class ConfigFormatting implements MixinFormatting {
     @Override
     public String toString() {
         return this.stringValue;
+    }
+
+    @Override
+    public Formatting colormycodes$asFormatting() {
+        return this.formatting;
     }
 }

@@ -4,6 +4,7 @@
   "package": "de.luludodo.colormycodes.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "FormattingMixin"
   ],
   "client": [
   ],

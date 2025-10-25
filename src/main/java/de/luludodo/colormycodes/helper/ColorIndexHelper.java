@@ -1,4 +1,4 @@
-package de.luludodo.colormycodes.colorIndex;
+package de.luludodo.colormycodes.helper;
 
 import net.minecraft.util.Formatting;
 

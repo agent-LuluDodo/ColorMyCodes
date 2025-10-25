@@ -3,11 +3,11 @@ package de.luludodo.colormycodes.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import de.luludodo.colormycodes.ColorMyCodesPreLaunch;
 import de.luludodo.colormycodes.config.serializer.MapSerializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -24,14 +24,14 @@ import java.util.function.BiConsumer;
 /**
  * A json-based config.
  * The config is standalone except for the {@link MapSerializer}.
- * Logs use the name {@code Lulu/JsonMapConfig}.
+ * Logs use the name {@code ColorMyConfig}.
  *
  * @param <K> The key class
  * @param <V> The value class
  */
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public abstract class JsonMapConfig<K,V> {
-    private static final Logger LOG = LoggerFactory.getLogger("Lulu/JsonMapConfig");
+    private static final Logger LOG = ColorMyCodesPreLaunch.LOG;
 
     /**
      * This exception is thrown if the config which is being read contains nothing.
@@ -103,7 +103,7 @@ public abstract class JsonMapConfig<K,V> {
         this.filename = Path.of(filename).toString();
         serializer.setVersion(version);
         this.oldFilenames = oldFilenames;
-        type = new TypeToken<Map<K, V>>(){}.getType();
+        type = Map.class;
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(type, serializer).create();
         file = FabricLoader.getInstance().getConfigDir().resolve(filename + ".json").toFile();
 
@@ -211,11 +211,12 @@ public abstract class JsonMapConfig<K,V> {
             LOG.warn("Couldn't find config {}.json!", getFilename(), e); // Warning since it could be the first time launching
             content = new HashMap<>();
             saveDefaults();
+            reload();
         } catch (IOException e) {
             LOG.error("Couldn't read config {}.json!", getFilename(), e);
             content = new HashMap<>();
         }
-        LOG.info("Content: {} entries", content.size());
+        LOG.info("Loaded {} entries", content.size());
         loaded = true;
         return successful;
     }

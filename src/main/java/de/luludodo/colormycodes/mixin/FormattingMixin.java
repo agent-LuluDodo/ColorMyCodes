@@ -1,8 +1,11 @@
 package de.luludodo.colormycodes.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import de.luludodo.colormycodes.formatting.ConfigFormatting;
+import de.luludodo.colormycodes.ColorMyCodesPreLaunch;
 import de.luludodo.colormycodes.formatting.MixinFormatting;
+import de.luludodo.colormycodes.helper.ByNameHelper;
+import de.luludodo.colormycodes.helper.FormattingHelper;
+import de.luludodo.colormycodes.helper.StripHelper;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,8 +14,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import static de.luludodo.colormycodes.config.ColorMyCodesConfig.getInstance;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Formatting.class)
 public abstract class FormattingMixin implements MixinFormatting {
@@ -24,6 +26,7 @@ public abstract class FormattingMixin implements MixinFormatting {
     @Shadow public abstract @Nullable Integer getColorValue();
     @Shadow public abstract String getName();
 
+    @Unique private boolean skipOverrides = false;
     @Unique private String colormycodes$name;
 
     @Inject(
@@ -31,7 +34,7 @@ public abstract class FormattingMixin implements MixinFormatting {
             at = @At("RETURN")
     )
     public void colormycodes$init(CallbackInfo ci) {
-        colormycodes$name = "minecraft:" + getName();
+        colormycodes$name =  Formatting.sanitize(getName());
     }
 
     @ModifyReturnValue(
@@ -39,17 +42,18 @@ public abstract class FormattingMixin implements MixinFormatting {
             at = @At("RETURN")
     )
     public char colormycodes$overrideCode(char original) {
-        ConfigFormatting formatting = getInstance().get(colormycodes$name);
-        if (formatting == null) {
+        if (skipOverrides)
             return original;
-        }
 
-        return formatting.colormycodes$getCode();
+        return FormattingHelper.get(colormycodes$name).colormycodes$getCode();
     }
 
     @Override
     public char colormycodes$getCode() {
-        return getCode();
+        skipOverrides = true;
+        char result = getCode();
+        skipOverrides = false;
+        return result;
     }
 
     @Override
@@ -62,35 +66,37 @@ public abstract class FormattingMixin implements MixinFormatting {
             at = @At("RETURN")
     )
     public boolean colormycodes$overrideIsModifier(boolean original) {
-        ConfigFormatting formatting = getInstance().get(colormycodes$name);
-        if (formatting == null) {
+        if (skipOverrides)
             return original;
-        }
 
-        return formatting.colormycodes$isModifier();
+        return FormattingHelper.get(colormycodes$name).colormycodes$isModifier();
     }
 
     @Override
     public boolean colormycodes$isModifier() {
-        return isModifier();
+        skipOverrides = true;
+        boolean result = isModifier();
+        skipOverrides = false;
+        return result;
     }
 
     @ModifyReturnValue(
-            method = "isModifier",
+            method = "isColor",
             at = @At("RETURN")
     )
     public boolean colormycodes$overrideIsColor(boolean original) {
-        ConfigFormatting formatting = getInstance().get(colormycodes$name);
-        if (formatting == null) {
+        if (skipOverrides)
             return original;
-        }
 
-        return formatting.colormycodes$isColor();
+        return FormattingHelper.get(colormycodes$name).colormycodes$isColor();
     }
 
     @Override
     public boolean colormycodes$isColor() {
-        return isColor();
+        skipOverrides = true;
+        boolean result = isColor();
+        skipOverrides = false;
+        return result;
     }
 
     @ModifyReturnValue(
@@ -98,29 +104,56 @@ public abstract class FormattingMixin implements MixinFormatting {
             at = @At("RETURN")
     )
     public Integer colormycodes$overrideGetColorValue(Integer original) {
-        ConfigFormatting formatting = getInstance().get(colormycodes$name);
-        if (formatting == null) {
+        if (skipOverrides)
             return original;
-        }
 
-        return formatting.colormycodes$getColorValue();
+        return FormattingHelper.get(colormycodes$name).colormycodes$getColorValue();
     }
 
     @Override
     public Integer colormycodes$getColorValue() {
-        return getColorValue();
+        skipOverrides = true;
+        Integer result = getColorValue();
+        skipOverrides = false;
+        return result;
     }
 
     @Override
     public String colormycodes$getName() {
-        return getName();
+        return colormycodes$name;
     }
 
-    @ModifyReturnValue(
-            method = "strip",
-            at = @At("RETURN")
-    )
-    private static String colormycodes$strip(@Nullable String original) {
+    @Override
+    public Formatting colormycodes$asFormatting() {
+        return (Formatting) (Object) this;
+    }
 
+    @Inject(
+            method = "strip",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private static void colormycodes$strip(String string, CallbackInfoReturnable<String> cir) {
+        cir.setReturnValue(StripHelper.strip(string));
+    }
+
+    @Inject(
+            method = "byName",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private static void colormycodes$byName(String name, CallbackInfoReturnable<Formatting> cir) {
+        cir.setReturnValue(ByNameHelper.byName(name));
+    }
+
+    @Inject(
+            method = "values",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private static void colormycodes$values(CallbackInfoReturnable<Formatting[]> cir) {
+        ColorMyCodesPreLaunch.LOG.info("values!");
+        if (FormattingHelper.isLoaded())
+            cir.setReturnValue(FormattingHelper.getAllAsFormatting());
     }
 }

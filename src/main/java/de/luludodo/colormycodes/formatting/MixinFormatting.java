@@ -1,5 +1,7 @@
 package de.luludodo.colormycodes.formatting;
 
+import net.minecraft.util.Formatting;
+
 public interface MixinFormatting {
     char colormycodes$getCode();
     int colormycodes$getColorIndex();
@@ -7,4 +9,5 @@ public interface MixinFormatting {
     boolean colormycodes$isColor();
     Integer colormycodes$getColorValue();
     String colormycodes$getName();
+    Formatting colormycodes$asFormatting();
 }
