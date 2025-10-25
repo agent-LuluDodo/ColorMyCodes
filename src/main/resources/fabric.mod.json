@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "colormycodes",
+  "version": "${version}",
+  "name": "ColorMyCodes",
+  "description": "Adds support for additional color codes.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/colormycodes/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "de.luludodo.colormycodes.client.ColormycodesClient"
+    ],
+    "main": [
+      "de.luludodo.colormycodes.Colormycodes"
+    ]
+  },
+  "mixins": [
+    "colormycodes.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
