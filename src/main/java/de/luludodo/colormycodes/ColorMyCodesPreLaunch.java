@@ -20,10 +20,11 @@ public class ColorMyCodesPreLaunch implements PreLaunchEntrypoint {
         StripHelper.init();
         ByNameHelper.init();
 
+        LOG.info("All Formatting values:");
         int count = 0;
         for (Formatting value : Formatting.values()) {
             count++;
-            LOG.info("Formatting: {}[{}](name: \"{}\", code: '{}', isColor: {}, isModifier: {}, colorIndex: {}, colorValue: {})", value.name(), value.ordinal(), value.getName(), value.getCode(), value.isColor(), value.isModifier(), value.getColorIndex(), value.getColorValue());
+            LOG.info(" - {}[{}](name: \"{}\", code: '{}', isColor: {}, isModifier: {}, colorIndex: {}, colorValue: {})", value.name(), value.ordinal(), value.getName(), value.getCode(), value.isColor(), value.isModifier(), value.getColorIndex(), value.getColorValue());
         }
         LOG.info("Found {} values", count);
     }

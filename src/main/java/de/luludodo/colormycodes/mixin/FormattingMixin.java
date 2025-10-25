@@ -152,7 +152,6 @@ public abstract class FormattingMixin implements MixinFormatting {
             cancellable = true
     )
     private static void colormycodes$values(CallbackInfoReturnable<Formatting[]> cir) {
-        ColorMyCodesPreLaunch.LOG.info("values!");
         if (FormattingHelper.isLoaded())
             cir.setReturnValue(FormattingHelper.getAllAsFormatting());
     }
