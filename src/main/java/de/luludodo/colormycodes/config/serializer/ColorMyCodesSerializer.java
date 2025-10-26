@@ -2,6 +2,7 @@ package de.luludodo.colormycodes.config.serializer;
 
 import com.google.gson.*;
 import de.luludodo.colormycodes.formatting.ConfigFormatting;
+import net.minecraft.util.Formatting;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -21,6 +22,9 @@ public class ColorMyCodesSerializer extends MapSerializer<String, ConfigFormatti
 
             ConfigFormatting formatting;
             if (!value.has("code")) {
+                if (Formatting.sanitize(name).equals("reset"))
+                    throw new JsonParseException("Cannot remove 'reset' (this is needed to keep the mod functional)");
+
                 formatting = new ConfigFormatting(name);
             } else {
                 String codeStr = value.get("code").getAsString();

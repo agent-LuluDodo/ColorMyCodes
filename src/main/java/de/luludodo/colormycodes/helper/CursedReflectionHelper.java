@@ -48,4 +48,15 @@ public abstract class CursedReflectionHelper {
             throw new IllegalStateException("Formatting constructor threw an exception!", e);
         }
     }
+
+    public static void fixAllOrdinal() {
+        Formatting[] values = Formatting.values();
+        for (Formatting value : values) {
+
+        }
+    }
+
+    private static void setOrdinal(Enum<?> value, int ordinal) {
+
+    }
 }

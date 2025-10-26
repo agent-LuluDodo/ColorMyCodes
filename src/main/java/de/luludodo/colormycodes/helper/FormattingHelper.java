@@ -16,7 +16,6 @@ public abstract class FormattingHelper {
     public static void init() {
         NAME_TO_FORMATTING = new HashMap<>();
         Map<String, Formatting> NAME_TO_REAL_FORMATTING = new HashMap<>();
-        Map<String, MixinFormatting> REMOVED = new HashMap<>();
 
         for (Formatting formatting : Formatting.values()) {
             MixinFormatting mixinFormatting = (MixinFormatting) (Object) formatting;
@@ -33,19 +32,13 @@ public abstract class FormattingHelper {
 
             String name = Formatting.sanitize(configFormatting.colormycodes$getName());
             if (names.add(name)) {
-                if (configFormatting.colormycodes$getCode() != '\00') {
-                    NAME_TO_FORMATTING.put(name, configFormatting);
+                NAME_TO_FORMATTING.put(name, configFormatting);
 
-                    Formatting formatting = NAME_TO_REAL_FORMATTING.get(name);
-                    if (formatting == null) {
-                        NAME_TO_REAL_FORMATTING.put(name, configFormatting.createFormatting());
-                    } else {
-                        configFormatting.setFormatting(formatting);
-                    }
+                Formatting formatting = NAME_TO_REAL_FORMATTING.get(name);
+                if (formatting == null) {
+                    NAME_TO_REAL_FORMATTING.put(name, configFormatting.createFormatting());
                 } else {
-                    NAME_TO_FORMATTING.remove(name);
-                    REMOVED.put(name, configFormatting);
-                    NAME_TO_REAL_FORMATTING.remove(name);
+                    configFormatting.setFormatting(formatting);
                 }
             } else {
                 ColorMyCodesPreLaunch.LOG.warn("Duplicate name '{}' (ignoring second declaration)!", name);
@@ -55,7 +48,6 @@ public abstract class FormattingHelper {
         ALL = List.copyOf(NAME_TO_FORMATTING.values());
         ALL_FORMATTING = NAME_TO_REAL_FORMATTING.values().stream()
                 .sorted(Comparator.comparingInt(Enum::ordinal)).toArray(Formatting[]::new);
-        NAME_TO_FORMATTING.putAll(REMOVED);
         LOADED = true;
     }
 
