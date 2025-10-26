@@ -30,10 +30,11 @@ The file is structured like this:
 `version` is always `1`.
 
 `content` contains a map of `names` to their configuration.\
-If `content` equals `{}` the value is removed from vanilla.
+If `content` equals `{}` the value is "removed" from vanilla. (Gets replaced by a dummy formatting)
 
 `code` is the letter after `§` which you need to use the formatting. (e.g. `"code": "i"` -> `§i`)
 
 `color` is the color which the text changes to.
 
 `modifier` determines if color changes are keep.
+
