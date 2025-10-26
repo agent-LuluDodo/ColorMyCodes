@@ -24,7 +24,8 @@ public class ColorMyCodesPreLaunch implements PreLaunchEntrypoint {
         int count = 0;
         for (Formatting value : Formatting.values()) {
             count++;
-            LOG.info(" - {}[{}](name: \"{}\", code: '{}', isColor: {}, isModifier: {}, colorIndex: {}, colorValue: {})", value.name(), value.ordinal(), value.getName(), value.getCode(), value.isColor(), value.isModifier(), value.getColorIndex(), value.getColorValue());
+            char code = value.getCode();
+            LOG.info(" - {}[{}](name: \"{}\", code: '{}', isColor: {}, isModifier: {}, colorIndex: {}, colorValue: {})", value.name(), value.ordinal(), value.getName(), code == '\00' ? "NULL" : code, value.isColor(), value.isModifier(), value.getColorIndex(), value.getColorValue());
         }
         LOG.info("Found {} values", count);
     }
