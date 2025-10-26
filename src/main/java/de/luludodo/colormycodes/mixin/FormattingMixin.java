@@ -1,22 +1,23 @@
 package de.luludodo.colormycodes.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import de.luludodo.colormycodes.ColorMyCodesPreLaunch;
 import de.luludodo.colormycodes.formatting.MixinFormatting;
 import de.luludodo.colormycodes.helper.ByNameHelper;
 import de.luludodo.colormycodes.helper.FormattingHelper;
+import de.luludodo.colormycodes.helper.GetNamesHelper;
 import de.luludodo.colormycodes.helper.StripHelper;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Collection;
+import java.util.List;
 
 @Mixin(Formatting.class)
 public abstract class FormattingMixin implements MixinFormatting {
@@ -156,5 +157,13 @@ public abstract class FormattingMixin implements MixinFormatting {
     private static void colormycodes$values(CallbackInfoReturnable<Formatting[]> cir) {
         if (FormattingHelper.isLoaded())
             cir.setReturnValue(FormattingHelper.getAllAsFormatting());
+    }
+
+    @ModifyReturnValue(
+            method = "getNames",
+            at = @At("RETURN")
+    )
+    private static Collection<String> colormycodes$getNames(Collection<String> original) {
+        return GetNamesHelper.filter(original);
     }
 }

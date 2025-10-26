@@ -1,9 +1,6 @@
 package de.luludodo.colormycodes;
 
-import de.luludodo.colormycodes.helper.ByNameHelper;
-import de.luludodo.colormycodes.helper.ColorIndexHelper;
-import de.luludodo.colormycodes.helper.FormattingHelper;
-import de.luludodo.colormycodes.helper.StripHelper;
+import de.luludodo.colormycodes.helper.*;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
@@ -19,6 +16,7 @@ public class ColorMyCodesPreLaunch implements PreLaunchEntrypoint {
         FormattingHelper.init();
         StripHelper.init();
         ByNameHelper.init();
+        GetNamesHelper.init();
 
         LOG.info("All Formatting values:");
         int count = 0;
